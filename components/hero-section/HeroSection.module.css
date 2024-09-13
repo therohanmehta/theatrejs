@@ -1,0 +1,23 @@
+.imageLayoutWrapper {
+  /* border: 2px solid red; */
+}
+.image0 {
+  clip-path: polygon(30% 0, 100% -15%, 67% 100%, 0% 100%);
+  transform: translate(100px, 100px);
+}
+.image1 {
+  object-fit: cover;
+  clip-path: polygon(54% 0, 100% 0, 100% 100%, 33% 100%);
+}
+.image4 {
+  clip-path: polygon(30% 0, 100% -15%, 67% 100%, 0% 100%);
+  margin-top: 50px;
+}
+.image3 {
+  clip-path: polygon(29% 0, 100% 0, 73% 100%, 0 100%);
+  margin-top: 100px;
+}
+
+.imageLayoutWrapper .textSection {
+  transform: translateX(100px);
+}

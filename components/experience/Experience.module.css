@@ -1,0 +1,23 @@
+.infiniteText {
+  animation: scrollText 40000ms linear infinite;
+  white-space: nowrap;
+  font-size: 30rem;
+  padding: 20px 100px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 3px #0b142a;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.modelStylingWrapper {
+  margin-top: 200px;
+}
+@keyframes scrollText {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

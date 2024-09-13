@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter:wght@500&family=Open+Sans&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@900&display=swap");
+.heroSection {
+  height: 100vh;
+  background-color: black;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.heroSection h1 {
+  /* font-family: 'Raleway', sans-serif; */
+  font-size: 400px;
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+  font-weight: 900;
+  padding-top: 30px;
+}
+
+.homeWrapper {
+  background-color: rgb(131, 130, 130);
+  height: 1500px;
+}
+.homeWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  overflow-x: hidden;
+}
+
+@media screen and (320px < width < 500px) {
+  .heroSection h1 {
+    /* font-family: 'Raleway', sans-serif; */
+    font-size: 200px;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    font-weight: 900;
+    padding-top: 30px;
+  }
+}
