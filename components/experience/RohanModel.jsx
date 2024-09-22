@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import { useControls } from "leva";
-import * as THREE from "three";
+
 export function RohanModel(props) {
   const modelRef = useRef();
   const { animation } = props;
@@ -26,52 +24,50 @@ export function RohanModel(props) {
   BurpeeAnimation[0].name = "Burpee";
 
   const { actions } = useAnimations(
-    [
-      WalkingAnimation[0],
-      PushupAnimation[0],
-      SleepingAnimation[0],
-      TextingAnimation[0],
-      BurpeeAnimation[0],
-    ],
+    [WalkingAnimation[0], PushupAnimation[0], SleepingAnimation[0], TextingAnimation[0], BurpeeAnimation[0]],
     modelRef
   );
 
   useEffect(() => {
+    actions["Walk"].reset().play();
     if (animation || cursorFollow) {
       if (cursorFollow) {
-        actions["Walk"].reset().play();
         return () => {
           // actions["Walk"].stop();
         };
       } else {
         actions[animation].reset().play().fadeIn(0.5);
-        // return () => {
-        //   actions["Walk"].reset().fadeOut(0.01);
-        // };
+        return () => {
+          actions[animation].fadeOut(0.5);
+        };
       }
     }
     if (scrollAnimation) {
       actions[scrollAnimation].reset().play().fadeIn(0.5);
-      // return () => {
-      //   actions[scrollAnimation].reset().fadeOut(0.01);
-      // };
+      return () => {
+        actions[scrollAnimation].fadeOut(0.5);
+      };
     }
-  }, [animation, scrollAnimation]);
+  }, [animation, scrollAnimation, cursorFollow, actions]);
 
-  useFrame((state) => {
-    if (cursorFollow) {
-      const target = new THREE.Vector3(
-        state.mouse.x * 7,
-        state.mouse.y * 7,
-        -5
-      );
-      modelRef.current.getObjectByName("Head").lookAt(target);
-    }
-    // if (!cursorFollow) {
-    //   modelRef.current.getObjectByName("Head").lookAt(state.camera.position);
-    //   // console.log(state.camera.position);
-    // }
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      actions["Walk"].play();
+    };
+
+    const handleScrollStop = () => {
+      actions["Walk"].play();
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scrollend", handleScrollStop);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scrollend", handleScrollStop);
+    };
+  }, [actions]);
+
   return (
     <group {...props} ref={modelRef} dispose={null}>
       <group>
@@ -108,16 +104,8 @@ export function RohanModel(props) {
           morphTargetDictionary={nodes.Wolf3D_Teeth.morphTargetDictionary}
           morphTargetInfluences={nodes.Wolf3D_Teeth.morphTargetInfluences}
         />
-        <skinnedMesh
-          geometry={nodes.Wolf3D_Hair.geometry}
-          material={materials.Wolf3D_Hair}
-          skeleton={nodes.Wolf3D_Hair.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.Wolf3D_Glasses.geometry}
-          material={materials.Wolf3D_Glasses}
-          skeleton={nodes.Wolf3D_Glasses.skeleton}
-        />
+        <skinnedMesh geometry={nodes.Wolf3D_Hair.geometry} material={materials.Wolf3D_Hair} skeleton={nodes.Wolf3D_Hair.skeleton} />
+        <skinnedMesh geometry={nodes.Wolf3D_Glasses.geometry} material={materials.Wolf3D_Glasses} skeleton={nodes.Wolf3D_Glasses.skeleton} />
         <skinnedMesh
           name="Wolf3D_Outfit_Top"
           geometry={nodes.Wolf3D_Outfit_Top.geometry}
@@ -131,24 +119,16 @@ export function RohanModel(props) {
           geometry={nodes.Wolf3D_Outfit_Bottom.geometry}
           material={materials.Wolf3D_Outfit_Bottom}
           skeleton={nodes.Wolf3D_Outfit_Bottom.skeleton}
-          morphTargetDictionary={
-            nodes.Wolf3D_Outfit_Bottom.morphTargetDictionary
-          }
-          morphTargetInfluences={
-            nodes.Wolf3D_Outfit_Bottom.morphTargetInfluences
-          }
+          morphTargetDictionary={nodes.Wolf3D_Outfit_Bottom.morphTargetDictionary}
+          morphTargetInfluences={nodes.Wolf3D_Outfit_Bottom.morphTargetInfluences}
         />
         <skinnedMesh
           name="Wolf3D_Outfit_Footwear"
           geometry={nodes.Wolf3D_Outfit_Footwear.geometry}
           material={materials.Wolf3D_Outfit_Footwear}
           skeleton={nodes.Wolf3D_Outfit_Footwear.skeleton}
-          morphTargetDictionary={
-            nodes.Wolf3D_Outfit_Footwear.morphTargetDictionary
-          }
-          morphTargetInfluences={
-            nodes.Wolf3D_Outfit_Footwear.morphTargetInfluences
-          }
+          morphTargetDictionary={nodes.Wolf3D_Outfit_Footwear.morphTargetDictionary}
+          morphTargetInfluences={nodes.Wolf3D_Outfit_Footwear.morphTargetInfluences}
         />
         <skinnedMesh
           name="Wolf3D_Body"

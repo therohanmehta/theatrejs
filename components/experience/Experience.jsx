@@ -18,40 +18,21 @@ function Experience() {
   //   },
   // });
 
-  const designationValues = [
-    "FULL STACK DEVELOPER",
-    "FRONTEND DEVELOPER ",
-    "SOFTWARE DEVELOPER",
-    "WEB DESIGNER",
-    "CIVIL ENGINEER",
-    "PROGRAMMER",
-  ];
+  const designationValues = ["FULL STACK DEVELOPER", "FRONTEND DEVELOPER ", "SOFTWARE DEVELOPER", "WEB DESIGNER", "CIVIL ENGINEER", "PROGRAMMER"];
 
   return (
-    <div
-      className={`${styles.modelStylingWrapper} relative w-100 overflow-hidden  bg-black `}
-    >
-      <div
-        className={`${styles.infiniteTextWrapper} w-screen overflow-hidden    absolute top-3/2 flex`}
-      >
+    <div className={`${styles.modelStylingWrapper} relative w-100 overflow-hidden  bg-black `}>
+      <div className={`${styles.infiniteTextWrapper} w-screen overflow-hidden    absolute top-3/2 flex`}>
         {designationValues.map((desigination) => (
-          <h1
-            key={desigination}
-            className={`${styles.infiniteText}   w-max z-0`}
-          >
+          <h1 key={desigination} className={`${styles.infiniteText}   w-max z-0`}>
             SOFTWARE DEVELOPER
           </h1>
         ))}
       </div>
-      <Canvas
-        style={{ height: "100vh", width: "100%" }}
-        className=""
-        shadows
-        camera={{ position: [1, 1, 40], fov: 30 }}
-      >
+      <Canvas style={{ height: "100vh", width: "100%" }} className="" shadows camera={{ position: [1, 1, 40], fov: 30 }}>
         {/* <color attach="background" args={["red"]} /> */}
         <Environment preset="sunset" />
-        <group ref={groupRef} position={[0, -20, -10]} scale={[15, 15, 15]}>
+        <group ref={groupRef} position={[0, -20, -10]} scale={[15, 15, 15]} rotation={[Math.PI / 2, 0, 0]}>
           <RohanModel cursorFollow={true} />
         </group>
       </Canvas>
