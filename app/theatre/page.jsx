@@ -9,14 +9,14 @@ import { editable as e, SheetProvider } from "@theatre/r3f";
 import styles from "@/components/experience/Experience.module.css";
 import { useControls } from "leva";
 import { Environment } from "@react-three/drei";
-import modelAnimationState from "./state.json";
+import state from "./RohanModel.theatre-project-state.json";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { debounce } from "lodash";
 
 studio.initialize();
 studio.extend(extension);
 
-const rohanSheet = getProject("Rohan Model").sheet("Rohan Sheet", "modelAnimationState", { state: modelAnimationState });
+const rohanSheet = getProject("RohanModel").sheet("RohanSheet", "modelAnimationState", { state: state });
 
 function Theatre() {
   const designationValues = ["FULL STACK DEVELOPER", "FRONTEND DEVELOPER ", "SOFTWARE DEVELOPER", "WEB DESIGNER", "CIVIL ENGINEER", "PROGRAMMER"];
@@ -25,7 +25,7 @@ function Theatre() {
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      rohanSheet.sequence.position = window.scrollY / 550;
+      rohanSheet.sequence.position = window.scrollY / window.innerHeight;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -48,11 +48,11 @@ function Theatre() {
             style={{ height: "100vh", width: "100%" }}
             className=""
             shadows
-            camera={{ position: [0, 0, 10], fov: 75 }}
+            camera={{ position: [0, 0, 10], fov: 30 }}
           >
             <SheetProvider sheet={rohanSheet}>
               <Environment preset="sunset" />
-              <e.group theatreKey="rohan" position={[0, -20, -10]} scale={[3, 3, 3]} rotation={[Math.PI / 2, 0, 0]}>
+              <e.group theatreKey="rohan" position={[0, 0, 0]} scale={[1, 1, 1]}>
                 <RohanModel />
               </e.group>
             </SheetProvider>
