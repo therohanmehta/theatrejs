@@ -7,30 +7,36 @@ import studio from "@theatre/studio";
 import extension from "@theatre/r3f/dist/extension";
 import { editable as e, SheetProvider } from "@theatre/r3f";
 import styles from "@/components/experience/Experience.module.css";
-import { useControls } from "leva";
 import { Environment } from "@react-three/drei";
-import state from "./RohanModel.theatre-project-state.json";
+import projectState from "./RohanModel.theatre-project-state.json";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { debounce } from "lodash";
 
 studio.initialize();
 studio.extend(extension);
 
-const rohanSheet = getProject("RohanModel").sheet("RohanSheet", "modelAnimationState", { state: state });
-
 function Theatre() {
+  const project = getProject("RohanModel", { state: projectState });
+  const sheet = project.sheet("RohanSheet");
+
+  // getProject("Demo Project", { state: demoProjectState });
+
   const designationValues = ["FULL STACK DEVELOPER", "FRONTEND DEVELOPER ", "SOFTWARE DEVELOPER", "WEB DESIGNER", "CIVIL ENGINEER", "PROGRAMMER"];
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    sheet.sequence.play({ iterationCount: Infinity, range: [0, 12.79] });
+  }, [sheet]);
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      rohanSheet.sequence.position = window.scrollY / window.innerHeight;
+      sheet.sequence.position = window.scrollY / window.innerHeight;
     };
 
     window.addEventListener("scroll", handleScroll);
-    // return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sheet]);
 
   return (
     <>
@@ -50,7 +56,7 @@ function Theatre() {
             shadows
             camera={{ position: [0, 0, 10], fov: 30 }}
           >
-            <SheetProvider sheet={rohanSheet}>
+            <SheetProvider sheet={sheet}>
               <Environment preset="sunset" />
               <e.group theatreKey="rohan" position={[0, 0, 0]} scale={[1, 1, 1]}>
                 <RohanModel />
@@ -81,12 +87,12 @@ function RohanModel(props) {
   // Start the walking animation on mount
   useEffect(() => {
     if (actions["Walk"]) {
-      actions["Walk"].reset().play();
+      actions["Walk"].reset().fadeIn(0.5).play();
     }
 
     // Cleanup on unmount
     return () => {
-      actions["Walk"]?.stop();
+      actions["Walk"]?.fadeOut(0.5).stop();
     };
   }, [actions]);
 
@@ -99,7 +105,5 @@ function RohanModel(props) {
 
 // Preload the GLTF model to avoid reloading it later
 useGLTF.preload("/models/model.glb");
-
-// useGLTF.preload("/models/model.glb");
 
 export default Theatre;
